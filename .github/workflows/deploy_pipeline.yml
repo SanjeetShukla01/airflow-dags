@@ -1,0 +1,67 @@
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '*.gitignore'
+      - '*.md'
+
+# Set environment variables
+env:
+  S3_BUCKET_DEV: dev-box.example.com
+  S3_BUCKET_FOLDER: dev/airflow_pipeline/de
+  S3_BUCKET_PRODUCTION: prod-box.example.com
+
+# Set job and steps:
+jobs:
+  # Deploy dag to dev
+  deploy_dev:
+    name: Deploy to Dev
+    environment: dev
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v1
+
+      # Set aws credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::30840938530:role/Github-OIDC-myAirflowRole-Ikdfjl909
+          aws-region: us-west-2
+
+      - name: Deploy to s3 Dev
+        run: |
+          echo "Copying dags to dev s3 bucket"
+          aws s3 cp --recursive dags/ s3://${S3_BUCKET_DEV}/${S3_BUCKET_FOLDER}/dags
+          echo "Done Copying"
+  
+
+  deploy_production:
+    # Deploy dag to dev
+    name: Deploy to Production
+    environment: production
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v1
+
+      # Set aws credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::30840938530:role/Github-OIDC-myAirflowRole-Ikdfjl909
+          aws-region: us-west-2
+
+      # Deploy to s3 Production
+      - name: Deploy to s3 Production
+        run: |
+          echo "Copying dags to dev s3 bucket"
+          aws s3 cp --recursive dags/ s3://${S3_BUCKET_PRODUCTION}/${S3_BUCKET_FOLDER}/dags
+          echo "Done Copying"
