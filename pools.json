@@ -1,0 +1,18 @@
+[
+  {
+    "name": "default_pool",
+    "slots": 10000
+  },
+  {
+    "name": "spark_dags",
+    "slots": 3
+  },
+  {
+    "name": "snowflake_dags",
+    "slots": 4
+  },
+    {
+    "name": "kafka_dags",
+    "slots": 1
+  }
+]

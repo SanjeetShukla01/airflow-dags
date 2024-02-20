@@ -1,0 +1,4 @@
+ssh_connection_id: ssh_executor_local
+KAFKA_CLUSTER_ID: dev_cluster
+S3_TO_DBMS_BUCKET: s3://dev-bucket.example.com/de/s3d
+S3_RAW_DATA_BUCKET: s3://dev-bucket.example.com/de/s3r

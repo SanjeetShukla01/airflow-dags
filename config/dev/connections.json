@@ -1,0 +1,9 @@
+[
+  {
+    "connection_id": "ssh_executor_local",
+    "conn_type": "ssh",
+    "host": "executor",
+    "login": "executor",
+    "extra": "{\"key_file\":\"/usr/local/airflow/.ssh/id_rsa\"}"
+  }
+]
