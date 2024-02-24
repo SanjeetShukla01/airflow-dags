@@ -1,26 +1,7 @@
-import os
-import socket
-import urllib
-
 from airflow import DAG
-from airflow.operators.python_operator import PythonOperator
+from airflow.contrib.operators.ssh_operator import SSHOperator
+from airflow.operators.dummy_operator import DummyOperator
 from datetime import datetime
-import logging
-
-
-def read_file_and_log_content(file_path):
-
-    cwd = os.getcwd()
-    logging.info("++++++++++++++++++++")
-    logging.info("Host name is:" + socket.gethostname() + "\n")
-    logging.info("Current working directory is:" + cwd + "\n")
-    logging.info("++++++++++++++++++++")
-    try:
-        with open(file_path, 'r') as file:
-            content = file.read()
-            logging.info("File content:\n%s", content)
-    except FileNotFoundError:
-        logging.error("File not found at path: %s", file_path)
 
 default_args = {
     'owner': 'airflow',
@@ -29,9 +10,15 @@ default_args = {
 }
 
 with DAG('read_file_dag', default_args=default_args, schedule_interval=None) as dag:
-    read_and_log_task = PythonOperator(
+
+    start_task = DummyOperator(task_id='start_task')
+
+    read_and_log_task = SSHOperator(
         task_id='read_and_log_content',
-        python_callable=read_file_and_log_content,
-        op_kwargs={'file_path': '/home/executor/sample3.txt'}
+        ssh_conn_id='ssh_executor_local',  # Connection ID from Airflow connections
+        command="python /home/executor/my_python_code.py"  # Command to execute on c2
     )
 
+    end_task = DummyOperator(task_id='end_task')
+
+    start_task >> read_and_log_task >> end_task
