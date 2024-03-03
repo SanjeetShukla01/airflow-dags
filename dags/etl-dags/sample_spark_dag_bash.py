@@ -24,7 +24,8 @@ dag = DAG(
 # Define BashOperator task to submit Spark application
 submit_spark_job = BashOperator(
     task_id='submit_spark_job',
-    bash_command='spark-submit --class your_main_class --master spark://spark:7077 /path/to/your/spark/job.jar arg1 arg2',
+    # bash_command='spark-submit --class your_main_class --master spark://spark:7077 /path/to/your/spark/job.jar arg1 arg2',
+    bash_command='spark-submit --py-files target/spark_etl-0.0.1.zip etl/etl_job.py --master localhost:4040 --job-name air_asia_data_job',
     dag=dag
 )
 
