@@ -4,7 +4,9 @@
 
 
 
-
+# How to run a DAG to test
+Configure spark connection acessing airflow web UI http://localhost:8080 and going to Connections
+![img.png](img.png)
 
 ## ToDo
 

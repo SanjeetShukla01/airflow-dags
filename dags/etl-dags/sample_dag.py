@@ -16,7 +16,7 @@ with DAG('read_file_dag', default_args=default_args, schedule_interval=None) as 
     read_and_log_task = SSHOperator(
         task_id='read_and_log_content',
         ssh_conn_id='ssh_executor_local',  # Connection ID from Airflow connections
-        command="python /home/executor/my_python_code.py"  # Command to execute on c2
+        command="python /usr/local/pyspark_pipeline/my_python_code.py"  # Command to execute on c2
     )
 
     end_task = DummyOperator(task_id='end_task')
