@@ -21,21 +21,35 @@ class CustomSparkHook(BaseHook):
             return False, str(e)
 
 
-def test_spark_connection():
-    spark_hook = CustomSparkHook(conn_id='spark_default')
+def test_spark_connection(conn_id='spark_default'):
+    spark_hook = CustomSparkHook(conn_id=conn_id)
     success, message = spark_hook.test_connection()
     if success:
         print("Spark connection test succeeded.")
     else:
         print("Spark connection test failed:", message)
 
+
+def wrapper_test_spark_connection():
+    return test_spark_connection('spark_connection')
+
+
 dag = DAG('test_spark_connection_dag', description='Test Spark Connection DAG',
           schedule_interval=None, start_date=datetime(2024, 1, 1))
 
 test_task = PythonOperator(
     task_id='test_spark_connection_task',
-    python_callable=test_spark_connection,
+    python_callable=wrapper_test_spark_connection,
+    op_kwargs={'conn_id': 'spark_default'},
     dag=dag,
 )
 
-test_task
+
+test_sc_task = PythonOperator(
+    task_id='test_spark_connection_type',
+    python_callable=wrapper_test_spark_connection,
+    op_kwargs={'conn_id': 'spark_connection'},
+    dag=dag,
+)
+
+test_task >> test_sc_task

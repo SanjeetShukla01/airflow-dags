@@ -9,7 +9,7 @@ default_args = {
     'retries': 1
 }
 
-with DAG('read_file_dag', default_args=default_args, schedule_interval=None) as dag:
+with DAG('test_read_file_dag_sshop', default_args=default_args, schedule_interval=None) as dag:
 
     start_task = DummyOperator(task_id='start_task')
 

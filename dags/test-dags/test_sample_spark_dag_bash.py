@@ -15,7 +15,7 @@ default_args = {
 
 # Instantiate DAG
 dag = DAG(
-    dag_id='spark_sample_application_bash',
+    dag_id='test_spark_bash_op_dag',
     default_args=default_args,
     schedule_interval=None,
     catchup=False
