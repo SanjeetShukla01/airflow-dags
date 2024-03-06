@@ -4,6 +4,7 @@ from datetime import datetime
 from airflow.hooks.base_hook import BaseHook
 from pyspark.sql import SparkSession
 
+
 class CustomSparkHook(BaseHook):
     def __init__(self, conn_id='spark_default'):
         self.conn_id = conn_id
