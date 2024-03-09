@@ -11,7 +11,7 @@ Configure spark connection acessing airflow web UI http://localhost:8080 and goi
 ## ToDo
 
 Airflow Sensors
-Xcom 
+Xcom
 Latest ways to write a dag.
 Notifications
 Airflow Object Storage
@@ -19,3 +19,8 @@ Airflow Object Storage
 ### SQL Library
 ### Kafka
 ### Start piecing together
+
+
+`
+export PYTHONPATH=$PYTHONPATH:$(pwd):$(pwd)/dags:$(pwd)/dags/test-dags:$(pwd)/dags/etl-dags:$(pwd)/dags/util-dags
+`
