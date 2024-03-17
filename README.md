@@ -22,5 +22,5 @@ Airflow Object Storage
 
 
 `
-export PYTHONPATH=$PYTHONPATH:$(pwd):$(pwd)/dags:$(pwd)/dags/test-dags:$(pwd)/dags/etl-dags:$(pwd)/dags/util-dags
+export PYTHONPATH=$PYTHONPATH:$(pwd):$(pwd)/dags:$(pwd)/dags/test-dags:$(pwd)/dags/etl-dags:$(pwd)/dags/util-dags:$(pwd)/venv/lib/python3.10/site-packages/airflow/providers/apache/spark/operators
 `
